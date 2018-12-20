@@ -8,12 +8,12 @@ create a single image.For this assignment, i have a taken one image as reference
 4 corresponding points for each image.There after transforming each image into projective plane of reference image ,i have eventually 
 stitched it to reference image.
 
-Please find attached PDF report and PPT. 
+Please find attached PDF [report](https://github.com/naman4u13/impromosaic/blob/master/Report.pdf) and [demo](https://github.com/naman4u13/impromosaic/blob/master/Mosaicing.pptx) PPT. 
 
-<object data="https://github.com/naman4u13/impromosaic/blob/master/Report.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="https://github.com/naman4u13/impromosaic/blob/master/Report.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/naman4u13/impromosaic/blob/master/Report.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
-[embed]https://github.com/naman4u13/impromosaic/blob/master/Report.pdf[/embed]
- 
+<img src="https://github.com/naman4u13/impromosaic/blob/master/Screenshot%20(12).png" height="400px" width="600px">
+<img src="https://github.com/naman4u13/impromosaic/blob/master/Screenshot%20(13).png" alt="image" height="400px" width="600px" >
+
+
+
+   
+  
