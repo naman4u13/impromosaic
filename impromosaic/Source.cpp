@@ -45,27 +45,6 @@ void destination(int event, int x, int y, int flags, void* param)
 		}
 	}
 }
-Mat equalizeIntensity(const Mat& inputImage)
-{
-	if (inputImage.channels() >= 3)
-	{
-		Mat ycrcb;
-		cvtColor(inputImage, ycrcb, CV_BGR2YCrCb);
-
-		vector<Mat> channels;
-		split(ycrcb, channels);
-
-		equalizeHist(channels[0], channels[0]);
-
-		Mat result;
-		merge(channels, ycrcb);
-		cvtColor(ycrcb, result, CV_YCrCb2BGR);
-
-		return result;
-	}
-
-	return Mat();
-}
 Mat getHomography()//function to calculate homography matrix using pair of 4 corresponding points in source and destination images
 {
 
@@ -81,7 +60,7 @@ Mat getHomography()//function to calculate homography matrix using pair of 4 cor
 
 	//points2 corresponds to 4 points in destination image(image whose projective plane is taken as reference)
 
-	points2.push_back(Point2f(dst[0].x,dst[0].y));
+	points2.push_back(Point2f(dst[0].x, dst[0].y));
 	points2.push_back(Point2f(dst[1].x, dst[1].y));
 	points2.push_back(Point2f(dst[2].x, dst[2].y));
 	points2.push_back(Point2f(dst[3].x, dst[3].y));
@@ -89,46 +68,7 @@ Mat getHomography()//function to calculate homography matrix using pair of 4 cor
 	Mat H = findHomography(Mat(points1), Mat(points2), 8, 3.0);
 	return H;
 }
-Mat equalizeBGRA(const Mat& img)
-{
-	Mat res(img.size(), img.type());
-	Mat imgB(img.size(), CV_8UC1);
-	Mat imgG(img.size(), CV_8UC1);
-	Mat imgR(img.size(), CV_8UC1);
-	Vec4b pixel;
 
-	if (img.channels() != 4)
-	{
-		cout << "ERROR: image input is not a BGRA image!" << endl;
-		return Mat();
-	}
-
-	for (int r = 0; r < img.rows; r++)
-	{
-		for (int c = 0; c < img.cols; c++)
-		{
-			pixel = img.at<Vec4b>(r, c);
-			imgB.at<uchar>(r, c) = pixel[0];
-			imgG.at<uchar>(r, c) = pixel[1];
-			imgR.at<uchar>(r, c) = pixel[2];
-		}
-	}
-
-	equalizeHist(imgB, imgB);
-	equalizeHist(imgG, imgG);
-	equalizeHist(imgR, imgR);
-
-	for (int r = 0; r < img.rows; r++)
-	{
-		for (int c = 0; c < img.cols; c++)
-		{
-			pixel = Vec4b(imgB.at<uchar>(r, c), imgG.at<uchar>(r, c), imgR.at<uchar>(r, c), img.at<Vec4b>(r, c)[3]);
-			res.at<Vec4b>(r, c) = pixel;
-		}
-	}
-
-	return res;
-}
 void Compute(Mat img, Mat ref)
 {
 
@@ -192,13 +132,13 @@ void Compute(Mat img, Mat ref)
 		printf("\n");
 		for (int j = 0; j < 3; j++)
 		{
-			a[i][j] = A.at<double>(i,j);
+			a[i][j] = A.at<double>(i, j);
 			printf("   %f", a[i][j]);
-			
+
 		}
 
 	}
-	point srcedges[4] = {{0,0},{img.cols - 1,0},{0,img.rows - 1},{img.cols - 1,img.rows - 1}};
+	point srcedges[4] = { {0,0},{img.cols - 1,0},{0,img.rows - 1},{img.cols - 1,img.rows - 1} };
 	point dstedges[4];
 	for (int i = 0; i < 4; i++)//obtain corner points of resultant quadrilateral after transformation of original image
 	{
@@ -275,21 +215,18 @@ int main()
 {
 	Mat img;
 	Mat ref;
-	img = imread("ans5.jpg");
+	img = imread("1.jpg");
 	ref = imread("4.jpg");
 	String srcimg = "source";
 	namedWindow(srcimg, WINDOW_NORMAL);
 	String dstimg = "destination";
 	namedWindow(dstimg, WINDOW_NORMAL);
-	//setMouseCallback(srcimg, source, NULL);
+	setMouseCallback(srcimg, source, NULL);
 	imshow(srcimg, img);
-	//setMouseCallback(dstimg, destination, NULL);
+	setMouseCallback(dstimg, destination, NULL);
 	imshow(dstimg, ref);
 	waitKey(0);
-	Mat eql = equalizeIntensity(img);
-	
-	imwrite("eql.jpg", eql);
-	//Compute(img, ref);//compute mosaicing
+	Compute(img, ref);//compute mosaicing
 	waitKey(0);
 	return 0;
 }
